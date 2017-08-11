@@ -1,5 +1,10 @@
 use std::collections::HashMap;
 
+extern crate reqwest;
+
+use self::reqwest::{Response};
+use model::card::Card;
+
 pub enum Lang {
     en_US,
     de_DE,
@@ -64,6 +69,24 @@ impl CardPageRequest {
     }
 }
 
+pub struct CardRequest {
+    cardID: String,
+    lang: Lang,
+}
+
+impl CardRequest {
+    pub fn default(cardID: &str) -> CardRequest {
+        CardRequest { cardID: String::from(cardID), lang: Lang::en_US}
+    }
+
+    pub fn to_hash(&self) -> HashMap<String, String> {
+        let mut hash = HashMap::new();
+        hash.insert(String::from("lang"), String::from(self.lang.as_str()));
+        hash.insert(String::from("cardID"), self.cardID.clone());
+        hash
+    }
+}
+
 pub struct QueryBuilder {}
 
 impl QueryBuilder {
@@ -77,5 +100,15 @@ impl QueryBuilder {
             query.push_str("&");
         }
         Ok(query)
+    }
+
+    pub fn get_card(c_req: CardRequest) -> Result<Card, &'static str> {
+        let query = QueryBuilder::query("https://api.gwentapi.com/v0/cards", c_req.to_hash())?;
+        let mut resp = reqwest::get(query.as_str()).unwrap();
+
+        match resp.json::<Card>() {
+            Err(e) => Err("ERROR"),
+            Ok(card) => Ok(card)
+        }
     }
 }
