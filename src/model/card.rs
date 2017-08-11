@@ -1,39 +1,42 @@
 extern crate serde;
 
-#[derive(Debug, Deserialize)]
+macro_rules! min_attribute_type {
+    ($($name:ident,)*) => {
+        $(
+            #[derive(Debug, Serialize, Deserialize)]
+            pub struct $name {
+                href: String,
+                name: String,
+            }
+        )*
+    }
+}
+
+min_attribute_type! {
+    Faction,
+    Group,
+    Rarity,
+    CardLink,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
 pub struct Category {
     href: String,
     name: String,
+    // WARNING: shouldn't be an Option but sometimes the field is missing
+    uuid: Option<String>
 }
 
-#[derive(Debug, Deserialize)]
-pub struct Faction {
-    href: String,
-    name: String,
-}
-
-#[derive(Debug, Deserialize)]
-pub struct Group {
-    href: String,
-    name: String,
-}
-
-#[derive(Debug, Deserialize)]
-pub struct Rarity {
-    href: String,
-    name: String,
-}
-
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct Variation {
     availability: String,
     href: String,
     rarity: Rarity,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct Card {
-    categories: Option<Vec<String>>,
+    categories: Option<Vec<Category>>,
     faction: Faction,
     flavor: String,
     group: Group,
@@ -46,13 +49,7 @@ pub struct Card {
     variations: Vec<Variation>,
 }
 
-#[derive(Debug, Deserialize)]
-pub struct CardLink {
-    href: String,
-    name: String,
-}
-
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct PageCard {
     count: i64,
     next: Option<String>,
