@@ -1,5 +1,5 @@
 [package]
-name = "gwent-api"
+name = "gwent_api"
 version = "0.1.0"
 authors = ["Andrés Saraos Luna <eldruz@protonmail.com>"]
 
