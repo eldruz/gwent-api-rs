@@ -5,8 +5,8 @@ macro_rules! min_attribute_type {
         $(
             #[derive(Debug, Serialize, Deserialize)]
             pub struct $name {
-                href: String,
-                name: String,
+                pub href: String,
+                pub name: String,
             }
         )*
     }
@@ -21,38 +21,38 @@ min_attribute_type! {
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Category {
-    href: String,
-    name: String,
+    pub href: String,
+    pub name: String,
     // WARNING: shouldn't be an Option but sometimes the field is missing
-    uuid: Option<String>
+    pub uuid: Option<String>
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Variation {
-    availability: String,
-    href: String,
-    rarity: Rarity,
+    pub availability: String,
+    pub href: String,
+    pub rarity: Rarity,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Card {
-    categories: Option<Vec<Category>>,
-    faction: Faction,
-    flavor: String,
-    group: Group,
-    href: String,
-    info: String,
-    name: String,
-    positions: Vec<String>,
-    strength: i64,
-    uuid: String,
-    variations: Vec<Variation>,
+    pub categories: Option<Vec<Category>>,
+    pub faction: Faction,
+    pub flavor: String,
+    pub group: Group,
+    pub href: String,
+    pub info: String,
+    pub name: String,
+    pub positions: Vec<String>,
+    pub strength: i64,
+    pub uuid: String,
+    pub variations: Vec<Variation>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct CardPage {
-    count: i64,
-    next: Option<String>,
-    previous: Option<String>,
-    results: Vec<CardLink>,
+    pub count: i64,
+    pub next: Option<String>,
+    pub previous: Option<String>,
+    pub results: Vec<CardLink>,
 }
