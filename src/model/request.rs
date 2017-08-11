@@ -1,10 +1,6 @@
 use std::collections::HashMap;
 
-extern crate reqwest;
-
-use self::reqwest::{Response};
-use model::card::Card;
-
+#[derive(Clone)]
 pub enum Lang {
     en_US,
     de_DE,
@@ -67,48 +63,40 @@ impl CardPageRequest {
         hash.insert(String::from("offset"), self.offset.to_string());
         hash
     }
-}
 
-pub struct CardRequest {
-    cardID: String,
-    lang: Lang,
-}
-
-impl CardRequest {
-    pub fn default(cardID: &str) -> CardRequest {
-        CardRequest { cardID: String::from(cardID), lang: Lang::en_US}
-    }
-
-    pub fn to_hash(&self) -> HashMap<String, String> {
-        let mut hash = HashMap::new();
-        hash.insert(String::from("lang"), String::from(self.lang.as_str()));
-        hash.insert(String::from("cardID"), self.cardID.clone());
-        hash
-    }
-}
-
-pub struct QueryBuilder {}
-
-impl QueryBuilder {
-    pub fn query(uri: &str, args: HashMap<String, String>) -> Result<String, &'static str> {
-        let mut query = String::from(uri);
+    pub fn query(&self) -> String {
+        let mut query = String::from("https://api.gwentapi.com/v0/cards");
         query.push_str("?");
+        let args = self.to_hash();
         for (key, val) in &args {
             query.push_str(key);
             query.push_str("=");
             query.push_str(val);
             query.push_str("&");
         }
-        Ok(query)
+        query
     }
+}
 
-    pub fn get_card(c_req: CardRequest) -> Result<Card, &'static str> {
-        let query = QueryBuilder::query("https://api.gwentapi.com/v0/cards", c_req.to_hash())?;
-        let mut resp = reqwest::get(query.as_str()).unwrap();
+pub struct CardRequest {
+    card_id: String,
+    lang: Option<Lang>,
+}
 
-        match resp.json::<Card>() {
-            Err(e) => Err("ERROR"),
-            Ok(card) => Ok(card)
+impl CardRequest {
+    pub fn default(card_id: &str) -> CardRequest {
+        CardRequest {
+            card_id: String::from(card_id),
+            lang: Some(Lang::en_US),
         }
     }
+
+    pub fn query(&self) -> String {
+        let mut query = String::from("https://api.gwentapi.com/v0/cards/");
+        query.push_str("?card_id=");
+        query.push_str(self.card_id.as_str());
+        query.push_str(self.lang.clone().unwrap_or(Lang::en_US).as_str());
+        query
+    }
+
 }
