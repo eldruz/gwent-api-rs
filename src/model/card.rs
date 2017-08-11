@@ -50,7 +50,7 @@ pub struct Card {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct PageCard {
+pub struct CardPage {
     count: i64,
     next: Option<String>,
     previous: Option<String>,
