@@ -50,6 +50,16 @@ impl CardPageRequest {
         }
     }
 
+    pub fn card_search_query(name: &str, lang: Option<Lang>) -> CardPageRequest {
+        CardPageRequest {
+            lang: lang.unwrap_or(Lang::en_US),
+            limit: 1,
+            name: Some(String::from(name)),
+            offset: 0,
+            if_modified_since: None
+        }
+    }
+
     pub fn to_hash(&self) -> HashMap<String, String> {
         let mut hash = HashMap::new();
         hash.insert(String::from("lang"), String::from(self.lang.as_str()));
