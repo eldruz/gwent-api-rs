@@ -7,6 +7,7 @@ extern crate serde_json;
 use gwent_api::client::gw_client;
 
 use serenity::client::Client;
+use serenity::model::Mentionable;
 use std::env;
 
 fn main() {
@@ -30,8 +31,12 @@ command!(card(_context, message) {
             let _ = message.reply("Card name is not recognized.");
         }
         Ok(card) => {
-            let json = serde_json::to_string_pretty(&card).unwrap();
-            let _ = message.reply(json.as_str());
+            let _ = message.channel_id.send_message(|m| m
+                    .content(message.author.mention().as_str())
+                    .embed(|e| e
+                        .title(card.name.as_str())
+                        .image("https://vignette3.wikia.nocookie.net/en.futurama/images/7/70/BenderTheOffender.jpg/revision/latest?cb=20110614181253")
+                        .description(card.info.as_str())));
         }
     }
 
