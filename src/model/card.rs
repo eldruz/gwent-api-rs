@@ -28,10 +28,34 @@ pub struct Category {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct Variation {
+pub struct VariationDescriptor {
     pub availability: String,
     pub href: String,
     pub rarity: Rarity,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Variation {
+    pub art: Art,
+    pub availability: String,
+    pub craft: Cost,
+    pub href: String,
+    pub mill: Cost,
+    pub rarity: Rarity,
+    pub uuid: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Art {
+    pub artist: String,
+    pub fullsize_image: String,
+    pub thumbnail_image: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Cost {
+    pub normal: i64,
+    pub premium: i64,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -46,7 +70,7 @@ pub struct Card {
     pub positions: Vec<String>,
     pub strength: i64,
     pub uuid: String,
-    pub variations: Vec<Variation>,
+    pub variations: Vec<VariationDescriptor>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
