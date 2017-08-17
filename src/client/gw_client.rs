@@ -1,7 +1,7 @@
 extern crate reqwest;
 
-use model::card::{Card, CardPage};
-use model::request::{CardPageRequest, Lang};
+use model::card::{Card, CardPage, Variation};
+use model::request::{CardPageRequest};
 
 macro_rules! get_card {
     ($query: expr, $query_type: ty) => (
@@ -31,5 +31,10 @@ impl Client {
                 String::new()
             };
         get_card!(card_uri.as_str(), Card)
+    }
+
+    pub fn get_card_default_art(card: &Card) -> reqwest::Result<Variation> {
+        let search_query = card.variations[0].href.clone();
+        get_card!(search_query.as_str(), Variation)
     }
 }
