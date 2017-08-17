@@ -105,8 +105,8 @@ impl CardRequest {
         let mut query = String::from("https://api.gwentapi.com/v0/cards/");
         query.push_str("?card_id=");
         query.push_str(self.card_id.as_str());
-        query.push_str(self.lang.clone().unwrap_or(Lang::en_US).as_str());
+        // FIXME lang attribute is not appended properly
+        // query.push_str(self.lang.clone().unwrap_or(Lang::en_US).as_str());
         query
     }
-
 }
