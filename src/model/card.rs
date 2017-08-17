@@ -48,7 +48,9 @@ pub struct Variation {
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Art {
     pub artist: String,
-    pub fullsize_image: String,
+    #[serde(rename = "fullsizeImage")]
+    pub fullsize_image: Option<String>,
+    #[serde(rename = "thumbnailImage")]
     pub thumbnail_image: String,
 }
 

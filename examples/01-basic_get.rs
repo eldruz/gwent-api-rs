@@ -16,4 +16,11 @@ fn main() {
         Err(e) => println!("ERROR: {}", e),
         Ok(card) => println!("{:#?}", card)
     };
+
+    // First variation of a card
+    let card = Client::get_card_by_name("Cantarella");
+    match Client::get_card_default_art(&card.unwrap()) {
+        Err(e) => println!("ERROR: {}", e),
+        Ok(variation) => println!("{:#?}", variation)
+    };
 }

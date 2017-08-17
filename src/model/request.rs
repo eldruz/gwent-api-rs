@@ -105,32 +105,8 @@ impl CardRequest {
         let mut query = String::from("https://api.gwentapi.com/v0/cards/");
         query.push_str("?card_id=");
         query.push_str(self.card_id.as_str());
-        query.push_str(self.lang.clone().unwrap_or(Lang::en_US).as_str());
-        query
-    }
-}
-
-pub struct VariationRequest {
-    card_id: String,
-    variation_id: String,
-    lang: Option<Lang>,
-}
-
-impl VariationRequest {
-    pub fn default(card_id: &str, variation_id: &str) -> VariationRequest {
-        VariationRequest {
-            card_id: String::from(card_id),
-            variation_id: String::from(variation_id),
-            lang: Some(Lang::en_US),
-        }
-    }
-
-    pub fn query(&self) -> String {
-        let mut query = String::from("https://api.gwentapi.com/v0/cards/");
-        query.push_str(self.card_id.as_str());
-        query.push_str("/variations/");
-        query.push_str(self.variation_id.as_str());
-        query.push_str(self.lang.clone().unwrap_or(Lang::en_US).as_str());
+        // FIXME lang attribute is not appended properly
+        // query.push_str(self.lang.clone().unwrap_or(Lang::en_US).as_str());
         query
     }
 }
