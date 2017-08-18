@@ -1,7 +1,7 @@
 extern crate reqwest;
 
 use model::card::{Card, CardPage, Variation};
-use model::request::{CardPageRequest};
+use self::reqwest::Url;
 
 macro_rules! get_card {
     ($query: expr, $query_type: ty) => (
@@ -17,11 +17,17 @@ macro_rules! get_card {
     )
 }
 
+
 pub struct Client { }
 
 impl Client {
+    fn get_query_card_by_name(card_name: &str) -> Result<Url, reqwest::UrlError> {
+        Url::parse_with_params("https://api.gwentapi.com/v0/cards",
+            &[("name", card_name)])
+    }
+
     pub fn get_card_by_name(card_name: &str) -> reqwest::Result<Card> {
-        let search_query = CardPageRequest::card_search_query(card_name, None).query();
+        let search_query = Self::get_query_card_by_name(card_name).unwrap();
         let mut search_result = get_card!(search_query.as_str(), CardPage).unwrap();
         let card_uri = if search_result.count >= 1 {
                 let uri = search_result.results.pop().unwrap();
