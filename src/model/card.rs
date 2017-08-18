@@ -1,6 +1,6 @@
 extern crate serde;
 
-macro_rules! min_attribute_type {
+macro_rules! links {
     ($($name:ident,)*) => {
         $(
             #[derive(Debug, Serialize, Deserialize)]
@@ -12,26 +12,38 @@ macro_rules! min_attribute_type {
     }
 }
 
-min_attribute_type! {
-    Faction,
-    Group,
-    Rarity,
+macro_rules! min_attribute_type {
+    ($($name:ident,)*) => {
+        $(
+            #[derive(Debug, Serialize, Deserialize)]
+            pub struct $name {
+                pub href: String,
+                pub name: String,
+                pub uuid: Option<String>,
+            }
+        )*
+    }
+}
+
+links! {
+    FactionLink,
+    GroupLink,
+    RarityLink,
     CardLink,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
-pub struct Category {
-    pub href: String,
-    pub name: String,
-    // WARNING: shouldn't be an Option but sometimes the field is missing
-    pub uuid: Option<String>
+min_attribute_type! {
+    Category,
+    Faction,
+    Group,
+    Rarity,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct VariationDescriptor {
     pub availability: String,
     pub href: String,
-    pub rarity: Rarity,
+    pub rarity: RarityLink,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -63,9 +75,9 @@ pub struct Cost {
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Card {
     pub categories: Option<Vec<Category>>,
-    pub faction: Faction,
+    pub faction: FactionLink,
     pub flavor: String,
-    pub group: Group,
+    pub group: GroupLink,
     pub href: String,
     pub info: String,
     pub name: String,
