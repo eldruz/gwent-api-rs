@@ -2,31 +2,31 @@ use std::collections::HashMap;
 
 #[derive(Clone)]
 pub enum Lang {
-    en_US,
-    de_DE,
-    es_ES,
-    es_MX,
-    fr_FR,
-    it_IT,
-    ja_JP,
-    pl_PL,
-    pt_BR,
-    ru_RU,
+    US,
+    DE,
+    ES,
+    MX,
+    FR,
+    IT,
+    JP,
+    PL,
+    BR,
+    RU,
 }
 
 impl Lang {
     pub fn as_str(&self) -> &str {
         match self {
-            &Lang::en_US => "en-US",
-            &Lang::de_DE => "de-DE",
-            &Lang::es_ES => "es-ES",
-            &Lang::es_MX => "es-MX",
-            &Lang::fr_FR => "fr-FR",
-            &Lang::it_IT => "it-IT",
-            &Lang::ja_JP => "ja-JP",
-            &Lang::pl_PL => "pl-PL",
-            &Lang::pt_BR => "pt-BR",
-            &Lang::ru_RU => "ru-RU",
+            &Lang::US => "en-US",
+            &Lang::DE => "de-DE",
+            &Lang::ES => "es-ES",
+            &Lang::MX => "es-MX",
+            &Lang::FR => "fr-FR",
+            &Lang::IT => "it-IT",
+            &Lang::JP => "ja-JP",
+            &Lang::PL => "pl-PL",
+            &Lang::BR => "pt-BR",
+            &Lang::RU => "ru-RU",
         }
     }
 }
@@ -42,7 +42,7 @@ pub struct CardPageRequest {
 impl CardPageRequest {
     pub fn default() -> CardPageRequest {
         CardPageRequest {
-            lang: Lang::en_US,
+            lang: Lang::US,
             limit: 20,
             name: None,
             offset: 0,
@@ -52,7 +52,7 @@ impl CardPageRequest {
 
     pub fn card_search_query(name: &str, lang: Option<Lang>) -> CardPageRequest {
         CardPageRequest {
-            lang: lang.unwrap_or(Lang::en_US),
+            lang: lang.unwrap_or(Lang::US),
             limit: 1,
             name: Some(String::from(name)),
             offset: 0,
@@ -97,7 +97,7 @@ impl CardRequest {
     pub fn default(card_id: &str) -> CardRequest {
         CardRequest {
             card_id: String::from(card_id),
-            lang: Some(Lang::en_US),
+            lang: Some(Lang::US),
         }
     }
 
