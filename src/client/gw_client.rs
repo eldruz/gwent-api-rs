@@ -40,12 +40,19 @@ impl QueryBuilder {
     ///
     /// # Examples
     ///
-    /// ```
-    /// use reqwest::Url;
+    /// ```rust,no_run
+    /// extern crate reqwest;
+    /// extern crate gwent_api;
     ///
-    /// let url = QueryBuilder::new()
-    ///     .card_name("Alchemist")
-    ///     .as_url("https://api.gwentapi.com/v0/cards/");
+    /// fn main() {
+    ///
+    ///     use reqwest::Url;
+    ///     use gwent_api::client::gw_client::QueryBuilder;
+    ///
+    ///     let url = QueryBuilder::new()
+    ///         .card_name("Alchemist")
+    ///         .as_url("https://api.gwentapi.com/v0/cards/");
+    /// }
     /// ```
     pub fn as_url(&self, base_url: &str) -> Result<Url, reqwest::UrlError> {
         Url::parse_with_params(base_url, &self.0)
@@ -59,12 +66,19 @@ impl QueryBuilder {
     ///
     /// # Examples
     ///
-    /// ```
-    /// use reqwest::Url;
+    /// ```rust,no_run
+    /// extern crate reqwest;
+    /// extern crate gwent_api;
     ///
-    /// let url = QueryBuilder::new()
-    ///     .lang("fr-FR")
-    ///     .as_url("https://api.gwentapi.com/v0/cards/bLkeCcb0VeaNNS2J73VLVA");
+    /// fn main() {
+    ///
+    ///     use reqwest::Url;
+    ///     use gwent_api::client::gw_client::QueryBuilder;
+    ///
+    ///     let url = QueryBuilder::new()
+    ///         .lang("fr-FR")
+    ///         .as_url("https://api.gwentapi.com/v0/cards/bLkeCcb0VeaNNS2J73VLVA");
+    /// }
     /// ``` 
     pub fn lang<'a>(&'a mut self, language: &str) -> &'a mut Self {
         self.0.insert(String::from("lang"), String::from(language));
@@ -79,10 +93,19 @@ impl QueryBuilder {
     ///
     /// # Examples
     ///
-    /// ```
-    /// let url = QueryBuilder::new()
-    ///     .card_name("Geralt: Igni")
-    ///     .as_url("https://api.gwentapi.com/v0/cards/");
+    /// ```rust,no_run
+    /// extern crate reqwest;
+    /// extern crate gwent_api;
+    ///
+    /// fn main() {
+    ///
+    ///     use reqwest::Url;
+    ///     use gwent_api::client::gw_client::QueryBuilder;
+    ///
+    ///     let url = QueryBuilder::new()
+    ///         .card_name("Geralt: Igni")
+    ///         .as_url("https://api.gwentapi.com/v0/cards/");
+    /// }
     /// ```
     ///
     /// # Errors
